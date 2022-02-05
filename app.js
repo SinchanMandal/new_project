@@ -23,7 +23,6 @@ app.get('/todos',(req,res)=>{
     
     const url="https://jsonplaceholder.typicode.com/todos";
       request(url,function (error, response, body) {
-        //  console.log(process.env.api_key)
           console.error('error:', error);
               if (!error&&response.statusCode==200) {
                   console.log(response)
@@ -62,38 +61,36 @@ app.get('/todos',(req,res)=>{
 
 
 app.get("/user/:id",(req, res)=>{
-    let usertodo=[];
+   
+    let mylist={};
+    let userdata={};
 
-/////////////////////
-let ind1=req.params.id;
+
+   const url= 'https://jsonplaceholder.typicode.com/users/?{req.params.id}';
+  
+   request(url, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+        const data = JSON.parse(body)
+       console.log(req.params.id);
+       let ind=req.params.id;
+      
+       userdata=data[ind-1];
+    
+    }else{
+        res.send('Error');
+    }
+});
+
+
+
 const url1="https://jsonplaceholder.typicode.com/todos";
 request(url1,function (error, response, body) {
-  //  console.log(process.env.api_key)
+ 
     console.error('error:', error);
         if (!error&&response.statusCode==200) {
             console.log(response)
             const data=JSON.parse(body)
-         // console.log(data[0].id);
-          //  console.log(data.length+69)
-           /*     
-            let a={
-                "id": "",
-               "title": "",
-               "completed": " "
-                  }
-              a.id=data[ind1-1].id;
-              a.title=data[ind1-1].title;
-              a.completed=data[ind1-1].completed;
-              let todo={
-                 "tododatails":a
-              }
-              console.log(todo)
-               usertodo.push(todo)
-               // res.send(todolist)
-            */
-
-
-
+        
                let todolist=[];
                for(let i=0;i<data.length;i++)
                {  
@@ -111,10 +108,14 @@ request(url1,function (error, response, body) {
                   todolist.push(a);
                }
                let todo={
-                "tododatails":todolist
+                "todos":todolist
              }
-               usertodo.push(todo)
-                //usertodo.pop();
+                
+               mylist={
+                 ...userdata,
+                 ...todo
+               }
+                res.send(mylist)
         }
        else {
             res.send('Error');
@@ -122,36 +123,6 @@ request(url1,function (error, response, body) {
     })
 
 
-////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-   const url= 'https://jsonplaceholder.typicode.com/users/?{req.params.id}';
-  
-   request(url, function(error, response, body) {
-    if (!error && response.statusCode == 200) {
-        const data = JSON.parse(body)
-        //console.log(data);
-       console.log(req.params.id);
-       let ind=req.params.id;
-       usertodo.push(data[ind-1]);
-       
-       console.log(usertodo)
-       res.send(usertodo)
-    }else{
-        res.send('Error');
-    }
-});
-
-console.log(usertodo)
 });
 
 app.listen(3000, function() {
