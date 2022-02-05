@@ -1,3 +1,6 @@
+// My self SINCHAN
+// IIT (BHU),VARANASI
+// Hope everything will run fine
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -18,6 +21,7 @@ app.get('/',(req,res)=>{
     res.send('Hello world')
 });
 
+// http://localhost:3000/todos
 
 app.get('/todos',(req,res)=>{
     
@@ -58,7 +62,8 @@ app.get('/todos',(req,res)=>{
 
 
 
-
+//http://localhost:3000/user/2 
+// you can give any id in place 2 
 
 app.get("/user/:id",(req, res)=>{
    
@@ -73,7 +78,7 @@ app.get("/user/:id",(req, res)=>{
         const data = JSON.parse(body)
        console.log(req.params.id);
        let ind=req.params.id;
-      
+      //console.log(data)
        userdata=data[ind-1];
     
     }else{
@@ -103,7 +108,7 @@ request(url1,function (error, response, body) {
                    a.id=data[i].id;
                    a.title=data[i].title;
                    a.completed=data[i].completed;
-                   console.log(a);
+                   //console.log(a);
 
                   todolist.push(a);
                }
@@ -115,7 +120,10 @@ request(url1,function (error, response, body) {
                  ...userdata,
                  ...todo
                }
-                res.send(mylist)
+               
+                {res.send(mylist)
+                console.log(mylist)
+                }
         }
        else {
             res.send('Error');
